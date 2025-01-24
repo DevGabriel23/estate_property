@@ -4,14 +4,15 @@ from odoo.exceptions import UserError
 class estate_property(models.Model):
     _name = 'estate.property'
     _description = 'Registro de Ventas'
+    _inherit = ['mail.thread']
     
     # Basic fields 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, tracking=True)
     description = fields.Text(string='Descripción')
     postcode = fields.Char(string='Código Postal')
     date_availability = fields.Date(string='Fecha de Disponibilidad')
     expected_price = fields.Float(string='Precio Esperado')
-    selling_price = fields.Float(string='Precio de Venta')
+    selling_price = fields.Float(string='Precio de Venta', tracking=True)
     bedrooms = fields.Integer(string='Habitaciones')
     living_area = fields.Integer(string='Sala')
     facades = fields.Integer(string='Fachadas')
@@ -35,6 +36,7 @@ class estate_property(models.Model):
             ('cancel', 'Cancelado'),
             ('sold', 'Vendido')
         ],
+        tracking=True,
     )
     
     # Computed fields
