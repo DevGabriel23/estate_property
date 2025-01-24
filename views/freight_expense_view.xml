@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="freight_expense_view_inherit_form" model="ir.ui.view">
+        <field name="name">freight.expense.view.inherit.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@id='other_tab']" position="after">
+                <page string="Gastos de flete" invisible="move_type != 'in_invoice'">
+                    <group class="col-6">
+                        <field name="maintenance_expense"/>
+                        <field name="authorized_expense"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

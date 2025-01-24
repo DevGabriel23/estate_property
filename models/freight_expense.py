@@ -1,7 +1,6 @@
 from odoo import fields, models
 
 class freight_expense(models.Model):
-    _name = 'freight.expense'
     _description = 'Gastos de Flete'
     
     _inherit = ['account.move']
