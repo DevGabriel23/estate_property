@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Búsqueda -->
+    <record id="estate_property_search" model="ir.ui.view">
+        <field name="name">estate.property.search</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <search string="Búsqueda de propiedades">
+                <field name="name"/>
+                <field name="postcode"/>
+                <filter name="Precio de Venta > 1000" domain="[('selling_price', '>=', '1000')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="estate_property_view_form" model="ir.ui.view">
+        <field name="name">estate.property.view.form</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Vender" name="action_sold" type="object" class="oe_highlight" icon="fa-gavel"/>
+                    <button string="Cancelar" name="action_cancel" type="object" class="btn-danger" icon="fa-ban"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" placeholder="Nombre de la Propiedad" options="{'line_breaks': False}" widget="text"/>
+                    </h1>
+                    <field name="tag_ids" widget="many2many_tags" placeholder="Etiquetas" options="{'color_field': 'color'}}"/>
+                    <group>
+                        <group>
+                            <field name="state" readonly='1' widget="badge" decoration-danger="state == 'cancel'" decoration-success="state == 'sold'" />
+                            <field name="property_type_id" />
+                            <field name="postcode"/>
+                            <field name="date_availability"/>
+                        </group>
+                        <group>
+                            <field name="expected_price"/>
+                            <field name="selling_price" readonly='1'/>
+                            <field name="best_price"/>
+                            <field name="best_price_partner"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <group class="col-6">
+                                <field name="description"/>
+                                <field name="bedrooms"/>
+                                <field name="living_area"/>
+                                <field name="facades"/>
+                                <field name="garage"/>
+                                <field name="garden"/>
+                                <field name="garden_area" invisible="garden == False"/>
+                                <field name="garden_orientation" invisible="garden == False"/>
+                                <field name="area_total" />
+                            </group>
+                        </page>
+                        <page string="Ofertas">
+                            <field name="offer_ids" />
+                        </page>
+                        <page string="Otra información">
+                            <group class="col-6">
+                                <field name="user_id" readonly='1' />
+                                <field name="partner_id" readonly='1' domain="[('customer_rank', '>', 0)]" />
+                            </group>
+                        </page>
+                    </notebook>                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de registro -->
+    <record id="estate_property_view_tree" model="ir.ui.view">
+        <field name="name">estate.property.view.tree</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="postcode"/>
+                <field name="selling_price"/>
+                <field name="date_availability"/>
+                <field name="expected_price"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acciones -->
+    <record id="estate_property_action" model="ir.actions.act_window">
+        <field name="name">Propiedades</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="estate_property_view_tree"></field>
+    </record>
+</odoo>
