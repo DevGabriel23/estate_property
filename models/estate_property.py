@@ -4,7 +4,20 @@ from odoo.exceptions import UserError
 class estate_property(models.Model):
     _name = 'estate.property'
     _description = 'Registro de Ventas'
+    
+    # Inherit mail.thread to add the "Chatter" feature
     _inherit = ['mail.thread']
+    
+    # SQL Constraints
+    _sql_constraints = [
+        (
+            'check_property_expected_price', # Constraint name
+            'CHECK(expected_price <= 0)', # SQL condition
+            'El precio esperado debe ser estrictamente positivo.' # Error message
+        ),
+        ('check_property_selling_price', 'CHECK(selling_price <= 0)', 'El precio de venta debe ser positivo.'),
+        ('unique_property_name', 'UNIQUE(name)', 'El nombre de la propiedad debe ser único.'),
+    ]
     
     # Basic fields 
     name = fields.Char(required=True, tracking=True)
